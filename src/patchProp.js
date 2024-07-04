@@ -1,4 +1,4 @@
-import { Color, MeshBasicMaterial } from '@anov/3d-core'
+import { Color } from '@anov/3d-core'
 
 export function patchProp(el, key, prevValue, nextValue) {
   if (!el)
@@ -15,9 +15,7 @@ export function patchProp(el, key, prevValue, nextValue) {
       el.scale.set(nextValue.x, nextValue.y, nextValue.z)
       break
     case 'color':
-      el.material = new MeshBasicMaterial({
-        color: new Color(nextValue),
-      })
+      el.color = new Color(nextValue)
       break
   }
 }

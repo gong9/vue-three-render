@@ -1,47 +1,56 @@
-import {
-  BoxGeometry,
-  Mesh,
-  MeshBasicMaterial,
-  Object3D,
-} from '@anov/3d-core'
+import * as Anov from '@anov/3d-core'
 
 export function nodeOps() {
   return {
     createElement(tag, _isSVG, _anchor, props) {
-      switch (tag) {
-        case 'Mesh':
-          const box = new Mesh(
-            new BoxGeometry(10, 10, 10),
-            new MeshBasicMaterial(),
-          )
-          return box
+      if (Anov[tag]) {
+        let node
+        if (tag.includes('Geometry'))
+          node = new Anov[tag](props.size[0], props.size[1], props.size[2])
+
+        else
+          node = new Anov[tag]()
+
+        return node
       }
+
+      throw new Error('Anov not have tag moudle')
     },
-    insert(child, parent, anchor) {
-      parent.add(child)
+    insert(child, parent) {
+      if (child && parent) {
+        if (child.isBufferGeometry)
+          parent.geometry = child
+
+        else if (child.isMaterial)
+          parent.material = child
+
+        else parent.add(child)
+      }
     },
     remove(child) {
       const parent = child.parent
       if (parent)
         parent.remove(child)
     },
-    setElementText(node) {},
-    createText(text) {
-      return new Object3D()
+    createText() {
+      return null
     },
-    createComment(text) {
-      return new Object3D()
+    createComment() {
+      return null
     },
-    setText(node, text) {},
+
     parentNode(node) {
-      return node.parent
+      if (node && node.parent)
+        return node.parent
+
+      return null
     },
+
     nextSibling(node) {
+      if (node && node.nextSibling)
+        return node.nextSibling
+
       return null
     },
-    querySelector(selectors) {
-      return null
-    },
-    setScopeId(el, id) {},
   }
 }
