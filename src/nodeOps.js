@@ -14,6 +14,8 @@ export function nodeOps() {
 
   return {
     createElement(tag, _isSVG, _anchor, props) {
+      tag = tag.slice(1)
+
       if (Anov[tag]) {
         let node
         if (tag.includes('Geometry'))
@@ -25,7 +27,9 @@ export function nodeOps() {
         Object.keys(props).forEach(
           (prop) => {
             if (eventKey.includes(prop)) {
-              interactionManager.add(node)
+              !node?.isInteract && interactionManager.add(node)
+              node.isInteract = true
+
               node.addEventListener(prop.toLowerCase().slice(2), () => props[prop](node))
             }
           },
@@ -49,6 +53,10 @@ export function nodeOps() {
     },
     remove(child) {
       const parent = child.parent
+
+      if (child.type === 'Mesh')
+        child.isInteract = false
+
       if (parent)
         parent.remove(child)
     },
