@@ -1,36 +1,37 @@
 import {
-  createRenderer,
-  h,
-  defineComponent,
   Fragment,
-  ref,
+  createRenderer,
+  defineComponent,
   getCurrentInstance,
-} from "vue";
-import { nodeOps } from "./nodeOps";
-import { patchProp } from "./patchProp";
+  h,
+  ref,
+} from 'vue'
+import { nodeOps } from './nodeOps'
+import { patchProp } from './patchProp'
 
-const mountCustomRenderer = (context, slots) => {
+function mountCustomRenderer(context, slots) {
   const InternalComponent = defineComponent({
     setup() {
-      const instance = getCurrentInstance()?.appContext.app;
-      const ctx = getCurrentInstance()?.appContext;
+      const instance = getCurrentInstance()?.appContext.app
+      const ctx = getCurrentInstance()?.appContext
 
-      if (ctx) {
-        ctx.app = instance;
-      }
+      if (ctx)
+        ctx.app = instance
 
-      return () => h(Fragment, null, slots?.default ? slots.default() : []);
+      console.log(h(Fragment, null, slots?.default ? slots.default() : []))
+
+      return () => h(Fragment, null, slots?.default ? slots.default() : [])
     },
-  });
+  })
 
   const { render } = createRenderer({
     ...nodeOps(),
     patchProp,
-  });
+  })
 
-  const scene = context.scene;
-  const app = ref(h(InternalComponent));
-  render(app.value, scene);
-};
+  const scene = context.scene
+  const app = ref(h(InternalComponent))
+  render(app.value, scene)
+}
 
-export default mountCustomRenderer;
+export default mountCustomRenderer

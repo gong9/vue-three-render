@@ -1,1 +1,1 @@
-利用vue自定义渲染器编辑three 练习demo
+vue3 threejs 自定义渲染

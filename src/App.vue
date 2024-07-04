@@ -5,9 +5,11 @@ import Scene from './Scene.vue'
 <template>
   <div class="root">
     <Scene>
-      <Mesh :position="[15,1,0]" color="red"/>
-      <Mesh :position="[-15,1,0]" color="green"/>
-      <Mesh :position="[15,16,0]" color="yellow"/>
+      <Mesh :position="[15, 1, 0]" color="red" />
+      <Mesh :position="[-15, 1, 0]" color="green" />
+      <Mesh :position="[15, 16, 0]" color="yellow" />
+
+      <!-- <Poi/> -->
     </Scene>
   </div>
 </template>
