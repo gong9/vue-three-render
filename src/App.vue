@@ -1,11 +1,15 @@
 <script setup>
 import Scene from './Scene.vue'
+
+const handleClick = (node) => {
+  console.log(222)
+}
 </script>
 
 <template>
   <div class="root">
     <Scene>
-      <Mesh :position="[0, 0, 0]">
+      <Mesh :position="[0, 0, 0]" @click="handleClick">
         <BoxGeometry :size="[1, 1, 1]" />
         <MeshBasicMaterial color="red" />
       </Mesh>

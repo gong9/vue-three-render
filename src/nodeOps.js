@@ -1,6 +1,17 @@
 import * as Anov from '@anov/3d-core'
+import { eventKey } from './config'
 
 export function nodeOps() {
+  const { renderer, camera, domElement } = Anov.use.useScene()
+
+  const interactionManager = new Anov.InteractionManager(
+    renderer, camera, domElement,
+  )
+
+  Anov.use.useframe(() => {
+    interactionManager.update()
+  })
+
   return {
     createElement(tag, _isSVG, _anchor, props) {
       if (Anov[tag]) {
@@ -10,6 +21,15 @@ export function nodeOps() {
 
         else
           node = new Anov[tag]()
+
+        Object.keys(props).forEach(
+          (prop) => {
+            if (eventKey.includes(prop)) {
+              interactionManager.add(node)
+              node.addEventListener(prop.toLowerCase().slice(2), () => props[prop](node))
+            }
+          },
+        )
 
         return node
       }

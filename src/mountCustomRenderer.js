@@ -18,8 +18,6 @@ function mountCustomRenderer(context, slots) {
       if (ctx)
         ctx.app = instance
 
-      console.log(h(Fragment, null, slots?.default ? slots.default() : []))
-
       return () => h(Fragment, null, slots?.default ? slots.default() : [])
     },
   })
